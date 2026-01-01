@@ -1,0 +1,13 @@
+server:
+  port: 8080
+request:
+  host: "7588.by"
+  path: "api/client/directions/schedule"
+  point_from_id: 1
+  point_to_id: 37
+  date: 04.01.2026
+  direction_id: 1
+  interval: 5m
+  signal: "./static/Max Verstappen.mp3"
+  start_time: "2026-01-04 14:00:00"
+  end_time: "2026-01-04 19:15:00"
