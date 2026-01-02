@@ -48,9 +48,9 @@ func Run() error {
 
 	hh := v1.NewHandlers(svc)
 
-	srv.RegisterHandlers(hh, lg)
-
 	worker := updater.New(&cfg.Request, repo)
+
+	srv.RegisterHandlers(hh, lg, worker)
 
 	loggerCtx := logger.WithContext(context.Background(), lg)
 

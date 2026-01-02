@@ -28,10 +28,12 @@ func NewServer(cfg *config.ServerConfig) *Server {
 	}
 }
 
-func (s *Server) RegisterHandlers(h *v1.Handlers, lg *logger.Logger) {
+func (s *Server) RegisterHandlers(h *v1.Handlers, lg *logger.Logger, u v1.Updater) {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /", h.Last)
+	lastItem := v1.UpdateMiddleware(http.HandlerFunc(h.Last), u)
+
+	mux.Handle("GET /", lastItem)
 	mux.HandleFunc("GET /list", h.List)
 
 	s.srv.Handler = v1.LoggingMiddleware(mux, lg)
