@@ -25,23 +25,31 @@ func NewHandlers(svc Service) *Handlers {
 	}
 }
 
-func (h Handlers) Last(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) Last(w http.ResponseWriter, r *http.Request) {
 	resp := h.svc.LastResponse()
 
 	lg, _ := logger.FromContext(r.Context())
 
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
+	enc := json.NewEncoder(w)
+
+	enc.SetIndent("", "  ")
+
+	if err := enc.Encode(resp); err != nil {
 		lg.Error("last: failed write json", zap.Error(err))
 		return
 	}
 }
 
-func (h Handlers) List(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) List(w http.ResponseWriter, r *http.Request) {
 	resp := h.svc.ListResponses()
 
 	lg, _ := logger.FromContext(r.Context())
 
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
+	enc := json.NewEncoder(w)
+
+	enc.SetIndent("", "  ")
+
+	if err := enc.Encode(resp); err != nil {
 		lg.Error("list: failed write json", zap.Error(err))
 		return
 	}
