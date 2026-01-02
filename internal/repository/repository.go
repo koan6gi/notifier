@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	storeTime = 2 * time.Hour
+	maxItemCount = 20
 )
 
 type Repository struct {
@@ -23,17 +23,15 @@ func New() *Repository {
 }
 
 func (r *Repository) refreshRepo() {
-	if len(r.st) <= 1 {
+	if len(r.st) <= maxItemCount {
 		return
 	}
 
-	if r.st[0].Moment.Before(time.Now().Add(-storeTime)) {
-		newStorage := make([]domain.Response, len(r.st)-1)
+	newStorage := make([]domain.Response, maxItemCount)
 
-		copy(newStorage, r.st)
+	copy(newStorage, r.st[len(r.st)-maxItemCount:])
 
-		r.st = newStorage
-	}
+	r.st = newStorage
 }
 
 func (r *Repository) AddResponse(items []domain.Item) {
