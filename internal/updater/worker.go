@@ -64,6 +64,10 @@ func (w *Worker) Run(ctx context.Context) error {
 	}
 }
 
+func (w *Worker) Update(ctx context.Context) {
+	w.update(ctx)
+}
+
 func (w *Worker) update(ctx context.Context) {
 	lg, ok := logger.FromContext(ctx)
 	if !ok {
